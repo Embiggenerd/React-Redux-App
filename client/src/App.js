@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { useSelector, useDispatch } from 'react-redux'
+
+import { getGoat, changeName } from './redux/actionCreators'
 
 function App() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getGoat())
+  }, [])
+
   return (
     <div className="App">
       <header className="App-header">
