@@ -1,29 +1,27 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-import { getBpiUSD, changeName } from './redux/actionCreators'
+import { getBpiUSD } from './redux/actionCreators'
+import { ERROR } from './redux/constants'
+import { useGetPrice } from './hooks'
 
 function App() {
   const dispatch = useDispatch()
 
-  const { price } = useSelector(state => state)
-
-
-
-  useEffect(() => {
-    dispatch(getBpiUSD())
-  }, [])
-
+  const { price, loading, error } = useGetPrice()
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+
+        {loading ? <img src={logo} className="App-logo" alt="logo" /> : null}
         <p>
           The current Bitcoin Price Index is {price}
         </p>
 
+        <button onClick={() => dispatch(getBpiUSD("lala"))}>Test Error</button>
+        {error ? <p onClick={() => dispatch({ type: ERROR, payload: { error: null } })}>{error.message}</p> : null}
       </header>
     </div>
   );
